@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: "https",
+  //       hostname: "assets.openweathermap.org",
+  //     },
+  //   ],
+  // },
+};
 
 export default nextConfig;
 
@@ -10,7 +19,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'assets.openweather.com',
+        hostname: 'assets.openweathermap.org',
       },
     ],
   },

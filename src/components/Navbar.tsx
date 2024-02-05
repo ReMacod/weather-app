@@ -15,7 +15,7 @@ export default function Navbar({}: Props) {
         <section className='flex gap-2 items-center'>
           <MdMyLocation className='text-2xl text-gray-600 hover:opacity-80 cursor-pointer' />
           <MdOutlineLocationOn className='text-3xl' />
-          <p className='text-slate-900/80 text-sm'>S</p>
+          <p className='text-slate-900/80 text-sm'></p>
           <div>
             {" "}
             <SearchBox value={""} onChange={undefined} onSubmit={undefined} />

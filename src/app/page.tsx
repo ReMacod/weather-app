@@ -3,12 +3,16 @@
 import Navbar from "@/components/Navbar";
 import SearchBox from "@/components/SearchBox";
 import axios from "axios";
-import { format, parseISO } from "date-fns";
+import { format, fromUnixTime, parseISO } from "date-fns";
 import Image from "next/image";
 import Container from "@/components/Container";
 import { useQuery } from "react-query";
 import convertelvinToCelsius from "@/utils/convertelvinToCelsius";
 import WeatherIcon from "@/components/WeatherIcon";
+import getDayOrNightIcon from "@/utils/getDayOrNightIcon";
+import WeatherDetails from "@/components/WeatherDetails";
+import { metersToKilometers } from "@/utils/metersToKilometers";
+import { convertWindSpeed } from "@/utils/convertWindSpeed";
 
 type WeatherObject = {
   cod: string;
@@ -83,7 +87,7 @@ export default function Home() {
     "repoData",
     async () => {
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=Ljubljana&APPID=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=20`
+        `https://api.openweathermap.org/data/2.5/forecast?q=Ljubljana&APPID=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`
       );
       return data;
     }
@@ -144,15 +148,49 @@ export default function Home() {
                       {format(parseISO(d.dt_txt), "h:mm a")}
                     </p>
                     {/* <WeatherIcon iconName={d.weather[0].icon} /> */}
+                    {/* <WeatherIcon iconName={d.weather[0].icon, d.dt_txt} /> */}
                     <p>{convertelvinToCelsius(d?.main.temp ?? 0)}°</p>
                   </div>
                 ))}
               </div>
             </Container>
           </div>
+          <div className='flex gap-4'>
+            {/* left */}
+            <Container className='w-fit justify-center flex-col px-4 items-center'>
+              <p className='capitalize text-center'>
+                {firstData?.weather[0].description}
+              </p>
+              {/* <WeatherIcon
+                iconName={getDayOrNightIcon(
+                  firstData?.weather[0].icon ?? "",
+                  firstData?.dt_txt ?? ""
+                )}
+              /> */}
+            </Container>
+            {/* right */}
+            <Container className='bg-yellow-300/80 px-6 gap-4 justify-between overflow-auto'>
+              <WeatherDetails
+                visability={metersToKilometers(firstData?.visability ?? 10000)}
+                humidity={`${firstData?.main.humidity}%`}
+                windSpeed={convertWindSpeed(firstData?.wind.speed ?? 1.64)}
+                airPressure={`${firstData?.main.pressure} hPa`}
+                sunrise={format(
+                  fromUnixTime(data?.city.sunrise ?? 1702949452),
+                  "H:mm"
+                )}
+                sunset={format(
+                  fromUnixTime(data?.city.sunset ?? 17025176572),
+                  "H:mm"
+                )}
+              />
+            </Container>
+          </div>
         </section>
         {/*7 days forcast data*/}
-        <section className=''></section>
+        <section className='flex w-full flex-col gap-4'>
+          <p className='text-2xl'>Forcast (7) days</p>
+        </section>
       </main>
     </div>
   );

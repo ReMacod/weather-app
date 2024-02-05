@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 ```
-47:03
+1:08
 ```
 
 npm install react-icons --save
