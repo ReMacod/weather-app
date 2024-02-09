@@ -180,12 +180,12 @@ export default function Home() {
               <p className='capitalize text-center'>
                 {firstData?.weather[0].description}
               </p>
-              {/* <WeatherIcon
+              <WeatherIcon
                 iconName={getDayOrNightIcon(
                   firstData?.weather[0].icon ?? "",
                   firstData?.dt_txt ?? ""
                 )}
-              /> */}
+              />
             </Container>
             {/* right */}
             <Container className='bg-yellow-300/80 px-6 gap-4 justify-between overflow-auto'>
