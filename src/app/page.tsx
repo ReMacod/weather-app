@@ -35,7 +35,8 @@ type WeatherData = {
   pop: number;
   sys: SysInfo;
   dt_txt: string;
-  city: string;
+  city: CityInfo;
+  list: Array<any>;
 };
 
 type MainWeatherInfo = {
@@ -137,8 +138,8 @@ export default function Home() {
   // }
 
   return (
-    <div className='flex flex-col gap-4 bg-gray-200 min-h-screen'>
-      <Navbar location={data?.city.name} />
+    <div className='flex flex-col gap-4 bg-blue-100 min-h-screen'>
+      <Navbar location={data?.city.name ?? ""} />
       <main className='px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb-10 pt-4'>
         {/*today data*/}
         {loadingCity ? (
@@ -148,9 +149,9 @@ export default function Home() {
             <section className='space-y-4'>
               <div className='space-y-2'>
                 <h2 className='flex gap-1 text-2xl items-end'>
-                  <p>({format(parseISO(firstData?.dt_txt ?? ""), "EEEE")})</p>{" "}
+                  <p>{format(parseISO(firstData?.dt_txt ?? ""), "EEEE")}</p>
                   <p className='text-lg'>
-                    ({format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")})
+                    {format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")}
                   </p>
                 </h2>
                 <Container className='gap-10 px-6 items-center '>
@@ -159,14 +160,14 @@ export default function Home() {
                       {convertKelvinToCelsius(firstData?.main.temp ?? 0)}°
                     </span>
                     <p className='text-xs space-x-1 whitespace-nowrap'>
-                      Feels like{" "}
+                      Feels like
                       {convertKelvinToCelsius(firstData?.main.temp ?? 0)}°
                     </p>
                     <p className='text-xs space-x-2'>
                       <span>
                         {convertKelvinToCelsius(firstData?.main.temp_min ?? 0)}
                         °↓
-                      </span>{" "}
+                      </span>
                       <span>
                         {convertKelvinToCelsius(firstData?.main.temp_max ?? 0)}
                         °↑
@@ -183,8 +184,9 @@ export default function Home() {
                         <p className='whitespace-nowrap'>
                           {format(parseISO(d.dt_txt), "h:mm a")}
                         </p>
-                        {/* <WeatherIcon iconName={d.weather[0].icon} /> */}
-                        {/* <WeatherIcon iconName={d.weather[0].icon, d.dt_txt} /> */}
+                        {/* { <WeatherIcon iconname={d.weather[0].icon} /> }
+                        { <WeatherIcon iconname={d.weather[0].icon, d.dt_txt} /> } */}
+
                         <p>{convertKelvinToCelsius(d?.main.temp ?? 0)}°</p>
                       </div>
                     ))}

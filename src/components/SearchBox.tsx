@@ -23,9 +23,9 @@ export default function SearchBox(props: Props) {
         value={props.value}
         onChange={props.onChange}
         placeholder='Search location...'
-        className='px-4 py-2 w-[230px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-500 h-full'
+        className='px-4 py-2 w-[230px] border border-gray-300 rounded-l-md focus:outline-none focus:border-blue-400 h-full'
       />
-      <button className='px-4 py-[9px] bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-600 whitespace-nowrap h-full'>
+      <button className='px-4 py-[9px] bg-blue-400 text-white rounded-r-md focus:outline-none hover:bg-blue-500 whitespace-nowrap h-full'>
         <IoSearch />
       </button>
     </form>
