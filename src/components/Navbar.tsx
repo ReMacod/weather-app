@@ -26,7 +26,7 @@ export default function Navbar({ location }: Props) {
     if (value.length >= 3) {
       try {
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${place}&APPID=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=40`
+          `https://api.openweathermap.org/data/2.5/find?q=${value}&APPID=${API_KEY}`
         );
         const suggestions = response.data.list.map((item: any) => item.name);
         console.log("suggestions", suggestions);
@@ -77,7 +77,6 @@ export default function Navbar({ location }: Props) {
           <MdOutlineLocationOn className='text-3xl' />
           <p className='text-slate-900/80 text-sm'>{location}</p>
           <div className='relative'>
-            {" "}
             <SearchBox
               value={city}
               onSubmit={handleSubmitSearch}
@@ -111,7 +110,6 @@ function SuggestionBox({
 }) {
   return (
     <>
-      {" "}
       {((showSuggestions && suggestions.length > 1) || error) && (
         <ul className='mb-4 bg-white absoulte border top-[44px] left-0 border-gray-300 rounded-md min-w-[200px] flex flex-col gap-1 py-2 px-2'>
           {error && suggestions.length < 1 && (
