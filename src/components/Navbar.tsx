@@ -65,35 +65,61 @@ export default function Navbar({ location }: Props) {
     }
   }
 
+  function handleCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          setloadingCity(true);
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&APPID=${API_KEY}`
+          );
+          setTimeout(() => {
+            setloadingCity(false);
+            setPlace(response.data.name);
+          }, 500);
+        } catch (error) {
+          setloadingCity(false);
+        }
+      });
+    }
+  }
+
   return (
-    <nav className='shadoow-sm sticky top-0 left-0 z-50 bg-violet-300 '>
-      <div className='h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto'>
-        <p className='flex items-center justify-center gap-2'>
-          <h2 className='text-gray-900 text-xl'>Weather</h2>
-          <MdWbSunny className='text-3xl mt-1 text-yellow-300' />
-        </p>
-        <section className='flex gap-2 items-center'>
-          <MdMyLocation className='text-2xl text-gray-600 hover:opacity-80 cursor-pointer' />
-          <MdOutlineLocationOn className='text-3xl' />
-          <p className='text-slate-900/80 text-sm'>{location}</p>
-          <div className='relative'>
-            <SearchBox
-              value={city}
-              onSubmit={handleSubmitSearch}
-              onChange={(e) => handleInputChange(e.target.value)}
+    <>
+      <nav className='shadoow-sm sticky top-0 left-0 z-50 bg-violet-300 '>
+        <div className='h-[80px] w-full flex justify-between items-center max-w-7xl px-3 mx-auto'>
+          <p className='flex items-center justify-center gap-2'>
+            <h2 className='text-gray-900 text-xl'>Weather</h2>
+            <MdWbSunny className='text-3xl mt-1 text-yellow-300' />
+          </p>
+          <section className='flex gap-2 items-center'>
+            <MdMyLocation
+              title='Your Current Location'
+              onClick={handleCurrentLocation}
+              className='text-2xl text-gray-600 hover:opacity-80 cursor-pointer'
             />
-            <SuggestionBox
-              {...{
-                showSuggestions,
-                suggestions,
-                handleSuggestionClick,
-                error,
-              }}
-            />
-          </div>
-        </section>
-      </div>
-    </nav>
+            <MdOutlineLocationOn className='text-3xl' />
+            <p className='text-slate-900/80 text-sm'>{location}</p>
+            <div className='relative md:flex'>
+              <SearchBox
+                value={city}
+                onSubmit={handleSubmitSearch}
+                onChange={(e) => handleInputChange(e.target.value)}
+              />
+              <SuggestionBox
+                {...{
+                  showSuggestions,
+                  suggestions,
+                  handleSuggestionClick,
+                  error,
+                }}
+              />
+            </div>
+          </section>
+        </div>
+      </nav>
+    </>
   );
 }
 
